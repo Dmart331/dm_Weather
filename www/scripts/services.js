@@ -1,6 +1,7 @@
+"use strict";
 angular.module('starter.services', [])
 
-.factory('Chats', function($http , $window) {
+.factory('Weather', function($http , $window) {
 //get weather api call//
   let getWeather = () => {
     let weather = [];
