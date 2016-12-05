@@ -1,5 +1,4 @@
 node_modules
-www
 .idea
 .temp
 .sass-cache
@@ -12,4 +11,3 @@ plugins
 *.log
 *.DS_Store
 
-app/scripts/configuration.js
