@@ -21,6 +21,7 @@ angular.module('starter.controllers', [])
           .success( (weatherObject) => {
           $scope.weatherCollection = weatherObject;
           $scope.weather.push($scope.weatherCollection);
+          $scope.$apply();
       })
     })
 
