@@ -14,28 +14,22 @@ angular.module('starter.controllers', [])
           });
     })
 
-.controller('WeatherCtrl', function($scope, Weather) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  Weather.getWeather()
-                  .then((weather) => {
-                  $scope.weather = weather;
-          console.log("Weather" , $scope.weather[0].current_observation.temp_f)
-          })
-          })
+.controller('WeatherCtrl', function($scope, $http) {
+          $scope.weather = []
+          $http.get('http://api.wunderground.com/api/7e327ac0450943ac/conditions/q/TN/Nashville.json')
+          .success( (weatherObject) => {
+          $scope.weatherCollection = weatherObject;
+          $scope.weather.push($scope.weatherCollection);
+      })
+    })
 
 
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Weather) {
-  console.log("doing it");
-  $scope.chat = Weather.get($stateParams.chatId);
-})
+
+// .controller('ChatDetailCtrl', function($scope, $stateParams, Weather) {
+//   console.log("doing it");
+//   $scope.chat = Weather.get($stateParams.chatId);
+// })
 
 .controller('AccountCtrl', function($scope, $ionicLoading) {
  
