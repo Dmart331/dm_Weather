@@ -1,10 +1,17 @@
 "use strict";
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $location) {
+.controller('DashCtrl', function($scope, $location, $http) {
         $scope.changeView = function(view){
-            $location.path(view); // path not hash
-        }
+            $location.path(view); 
+          }
+          $scope.stories = []
+          $http.get('https://www.reddit.com/me/m/space.json')
+          .success(function(response){
+            angular.forEach(response.data.children, function(child){
+              $scope.stories.push(child.data);
+            });
+          });
     })
 
 .controller('WeatherCtrl', function($scope, Weather) {
@@ -26,6 +33,7 @@ angular.module('starter.controllers', [])
 
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Weather) {
+  console.log("doing it");
   $scope.chat = Weather.get($stateParams.chatId);
 })
 

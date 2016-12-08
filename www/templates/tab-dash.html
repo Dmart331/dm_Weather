@@ -1,11 +1,12 @@
 <ion-view view-title="Dashboard">
   <ion-content class="padding">
-    <form>
-  <div class="form-group">
-    <label>Enter Zip Below To Get Weather</label>
-    <!-- TODO: Hook up this form to our JS for submitting -->
-    <input type="text" class="form-control" placeholder="Enter Zip..." ng-model='newSpot.location' />
-    
-  </div>
+ 	<div class="list">
+ 	<a class="item item-thumbnail-left" href="{{story.url}}" target="_blank" ng-repeat="story in stories" >
+ 	<img src="{{story.thumbnail}}" ng-if="story.thumbnail.startsWith('http')">
+ 	<h2 class="story-title">{{story.title}}</h2> 
+ 	<p>{{story.domain}}</p>
+ 	</a>
+ 	</div>
+ 	</div>
   </ion-content>
 </ion-view>
