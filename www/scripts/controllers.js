@@ -1,12 +1,12 @@
 "use strict";
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $location, $http) {
-        $scope.changeView = function(view){
-            $location.path(view); 
-          }
+.controller('RedditCtrl', function($scope, $location, $http) {
+        // $scope.changeView = function(view){
+        //     $location.path(view); 
+        //   }
           $scope.stories = []
-          $http.get('https://www.reddit.com/me/m/space.json')
+          $http.get('https://www.reddit.com/r/space.json')
           .success(function(response){
             angular.forEach(response.data.children, function(child){
               $scope.stories.push(child.data);
@@ -21,7 +21,6 @@ angular.module('starter.controllers', [])
           .success( (weatherObject) => {
           $scope.weatherCollection = weatherObject;
           $scope.weather.push($scope.weatherCollection);
-          $scope.$apply();
       })
     })
 
@@ -33,13 +32,11 @@ angular.module('starter.controllers', [])
 //   $scope.chat = Weather.get($stateParams.chatId);
 // })
 
-.controller('AccountCtrl', function($scope, $ionicLoading) {
+.controller('TrafficCtrl', function($scope, $ionicLoading) {
  
     google.maps.event.addDomListener(window, 'load', function() {
-        var myLatlng = new google.maps.LatLng(37.3000, -120.4833);
  
         var mapOptions = {
-            center: myLatlng,
             zoom: 16,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
