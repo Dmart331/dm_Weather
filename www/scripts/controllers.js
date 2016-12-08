@@ -14,9 +14,10 @@ angular.module('starter.controllers', [])
           });
     })
 
-.controller('WeatherCtrl', function($scope, $http) {
+.controller('WeatherCtrl', function($scope, $http, Weather) {
           $scope.weather = []
-          $http.get('http://api.wunderground.com/api/7e327ac0450943ac/conditions/q/TN/Nashville.json')
+          console.log(Weather.API_key)
+          $http.get(`http://api.wunderground.com/api/${Weather.API_key}/conditions/q/TN/Nashville.json`)
           .success( (weatherObject) => {
           $scope.weatherCollection = weatherObject;
           $scope.weather.push($scope.weatherCollection);
