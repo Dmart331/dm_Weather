@@ -6,7 +6,7 @@
   </ion-refresher>
  	<div class="list">
  	<a class="item item-thumbnail-left" href="{{story.url}}" target="_blank" ng-repeat="story in stories track by story.id" >
- 	<img src="{{story.thumbnail}}" ng-if="story.thumbnail.startsWith('http')">
+ 	<img src="{{story.thumbnail}}" ng-if="story.thumbnail.startsWith('http' || 'https')">
 	<h2 class="story-title">{{story.title}}</h2>
   <p>
 <span am-time-ago="story.created_utc | amFromUnix"> </span> - {{story.domain}}</p>
