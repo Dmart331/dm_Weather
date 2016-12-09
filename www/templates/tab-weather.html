@@ -1,7 +1,7 @@
 <ion-view view-title="Weather">
   <ion-content>
     <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="item in weather" type="item-text-wrap" href="#/tab/chats/{{item.id}}">
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="item in weather" type="item-text-wrap" href="#/tab/Weather/Weather-Detail">
         <img ng-src="{{item.current_observation.icon_url}}">
         <h2>Current Temperature: <br>{{item.current_observation.temp_f}}</h2>
         <p>{{item.current_observation.icon}}</p>
