@@ -1,17 +1,40 @@
 "use strict";
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['angularMoment'])
 
 .controller('RedditCtrl', function($scope, $location, $http) {
         $scope.changeView = function(view){
             $location.path(view); 
           }
           $scope.stories = []
-          $http.get('https://www.reddit.com/r/space.json')
+          function loadStories(params, callback){
+            var stories = [];
+             $http.get('https://www.reddit.com/r/all/new/.json', {params: params})
           .success(function(response){
             angular.forEach(response.data.children, function(child){
-              $scope.stories.push(child.data);
+              stories.push(child.data);
             });
+            callback(stories)
           });
+          }
+          $scope.loadOlderStories = function(){
+            var params = {};
+            if($scope.stories.length > 0){
+              params['after'] = $scope.stories[$scope.stories.length - 1].name;
+            }
+            loadStories(params, function(olderStories){
+              $scope.stories = $scope.stories.concat(olderStories);
+              $scope.$broadcast('scroll.infiniteScrollComplete');
+            $scope.$apply()
+            });
+          }
+          $scope.loadNewStories = function(){
+            var params = {'before': $scope.stories[0].name};
+            loadStories(params, function(newStories){
+              $scope.stories = newStories.concat($scope.stories);
+              $scope.$broadcast('scorll.refreshComplete');
+            })
+
+          }
     })
 
 .controller('WeatherCtrl', function($scope, $http, Weather) {
@@ -22,7 +45,7 @@ angular.module('starter.controllers', [])
           $scope.weatherCollection = weatherObject;
           $scope.weather.push($scope.weatherCollection);
       });
-          
+
     })
 
 
