@@ -2,9 +2,9 @@
 angular.module('starter.controllers', [])
 
 .controller('RedditCtrl', function($scope, $location, $http) {
-        // $scope.changeView = function(view){
-        //     $location.path(view); 
-        //   }
+        $scope.changeView = function(view){
+            $location.path(view); 
+          }
           $scope.stories = []
           $http.get('https://www.reddit.com/r/space.json')
           .success(function(response){
@@ -21,21 +21,29 @@ angular.module('starter.controllers', [])
           .success( (weatherObject) => {
           $scope.weatherCollection = weatherObject;
           $scope.weather.push($scope.weatherCollection);
-      })
+      });
+          
     })
 
 
 
 
-// .controller('ChatDetailCtrl', function($scope, $stateParams, Weather) {
-//   console.log("doing it");
-//   $scope.chat = Weather.get($stateParams.chatId);
-// })
+.controller('ChatDetailCtrl', function($scope, Weather) {
+  console.log("doing it");
+})
 
 .controller('TrafficCtrl', function($scope, $ionicLoading) {
- 
+  $scope.$on("$ionicView.enter", function(event, data){
+    $ionicLoading.show({
+    template: '<p>Loading...</p><ion-spinner></ion-spinner>',
+    duration:3000
+    });
+  });
+  $scope.hide = function(){
+    $ionicLoading.hide();
+  }
+
     google.maps.event.addDomListener(window, 'load', function() {
- 
         var mapOptions = {
             zoom: 16,
             mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -52,6 +60,7 @@ angular.module('starter.controllers', [])
             });
             var trafficLayer = new google.maps.TrafficLayer();
             trafficLayer.setMap(map);
+            $scope.hide()
         });
  
         $scope.map = map;
