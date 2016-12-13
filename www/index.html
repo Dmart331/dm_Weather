@@ -26,6 +26,7 @@
     <link href="styles/style.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+<script src="bower_components/ionic/js/directive/directives.js"></script>
     <link href="styles/ionic.app.css" rel="stylesheet">
     -->
 
@@ -41,6 +42,7 @@
     <script src="bower_components/moment/moment.js"></script>
     <script src="bower_components/angular-moment/angular-moment.js"></script>
     <script src="bower_components/ngCordova/dist/ng-cordova.js"></script>
+
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -50,12 +52,15 @@
     <!-- your app's js -->
     <!-- build:js scripts/scripts.js -->
     <script src="scripts/app.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9_GvxurEOIfOCg7FrExKT2Fax4zlrd4Q
+"></script>
     <script src="scripts/controllers.js"></script>
     <script src="scripts/services.js"></script>
+    <script src="scripts/directives.js"
     <script src="scripts/configuration.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9_GvxurEOIfOCg7FrExKT2Fax4zlrd4Q
-"
-    async defer></script>
+
+
+
     <!-- endbuild -->
   </head>
   <body ng-app="starter">
@@ -74,5 +79,6 @@
     <ion-nav-view>
       <!-- <div ng-include="templates/tab-account.html"></div> -->
     </ion-nav-view>
+    
   </body>
 </html>

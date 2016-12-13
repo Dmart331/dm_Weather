@@ -1,5 +1,16 @@
 "use strict";
-angular.module('starter.controllers', ['angularMoment'])
+angular.module('starter.controllers', ['angularMoment', 'ngCordova'])
+
+
+
+
+
+
+.controller('AlarmCtrl', function($scope) {
+
+})
+
+//------------------------{Reddit Controller}----------------------//
 
 .controller('RedditCtrl', function($scope, $location, $http) {
     $scope.changeView = function(view) {
@@ -17,6 +28,10 @@ angular.module('starter.controllers', ['angularMoment'])
                     stories.push(child.data);
                 });
                 callback(stories)
+                if (stories.thumbnail === "self") {
+                    stories.thumbnail = "../images/ionic.png"
+                }
+                console.log($scope.stories)
             });
     }
     $scope.loadOlderStories = function() {
@@ -27,7 +42,6 @@ angular.module('starter.controllers', ['angularMoment'])
         loadStories(params, function(olderStories) {
             $scope.stories = $scope.stories.concat(olderStories);
             $scope.$broadcast('scroll.infiniteScrollComplete');
-            $scope.$apply()
         });
     }
     $scope.loadNewStories = function() {
@@ -39,61 +53,143 @@ angular.module('starter.controllers', ['angularMoment'])
             $scope.$broadcast('scorll.refreshComplete');
             $scope.$apply();
         })
-
     }
 })
 
+//------------------------{Weather Controller}----------------------//
+
 .controller('WeatherCtrl', function($scope, $http, Weather) {
-    $scope.weather = []
-    console.log(Weather.API_key)
-    $http.get(`http://api.wunderground.com/api/${Weather.API_key}/conditions/q/TN/Nashville.json
-      `)
-        .success((weatherObject) => {
-            $scope.weatherCollection = weatherObject;
-            $scope.weather.push($scope.weatherCollection);
-            $scope.$apply();
-        });
+    $scope.weather = [];
+    $scope.newWeather = [];
+    $scope.zipObj = {
+        zip: ''
+    };
+    $scope.weatherDetail = [];
+
+    // console.log(Weather.API_key);
+    $scope.getWeather = function() {
+        console.log("zip", $scope.zipObj.zip);
+        $http.get(`http://api.wunderground.com/api/${Weather.API_key}/geolookup/q/${$scope.zipObj.zip}.json
+        `)
+            .success((weatherObject) => {
+                $scope.weatherCollection = weatherObject;
+                $scope.weather.push($scope.weatherCollection);
+                console.log("weather", $scope.weather[0]);
+                $http.get(`http://api.wunderground.com/api/${Weather.API_key}/conditions/q/${$scope.weather[0].location.state}/${$scope.weather[0].location.city}.json`)
+                    .success((newWeatherObj) => {
+                        $scope.newCollection = newWeatherObj;
+                        $scope.newWeather.push($scope.newCollection);
+                        $http.get(`https://api.darksky.net/forecast/3bcc733553a43c5d324d11d6a83e58c2/${$scope.weather[0].location.lat},${$scope.weather[0].location.lon}`)
+                            .success((openObj) => {
+                                $scope.openCollection = openObj;
+                                $scope.weatherDetail.push($scope.openCollection);
+                                console.log("Drew2", $scope.weatherDetail);
+                            })
+                    })
+                console.log("new", $scope.newWeather);
+            });
+        $scope.weather = [];
+        $scope.newWeather = [];
+        $scope.zipObj = {
+            zip: ''
+        };
+
+    }
 
 })
 
-
-
+//------------------------{Weather Detail Controller: TODO}----------------------//
 
 .controller('ChatDetailCtrl', function($scope, Weather) {
-    console.log("doing it");
+    // $scope.weather = [];
+    // $scope.newWeather = [];
+    // $scope.zipObj = {zip: ''};
+    // $scope.weatherDetail = [];
+
+    //     // console.log(Weather.API_key);
+    // $scope.getWeather = function(){
+    //   console.log("zip", $scope.zipObj.zip);
+    //  $http.get(`http://api.wunderground.com/api/${Weather.API_key}/geolookup/q/${$scope.zipObj.zip}.json
+    //     `)
+    //     .success((weatherObject) => {
+    //         $scope.weatherCollection = weatherObject;
+    //         $scope.weather.push($scope.weatherCollection);
+    //         console.log("weather", $scope.weather[0]);
+    //         $http.get(`http://api.wunderground.com/api/${Weather.API_key}/conditions/q/${$scope.weather[0].location.state}/${$scope.weather[0].location.city}.json`)
+    //             .success((newWeatherObj) => {
+    //                 $scope.newCollection = newWeatherObj;
+    //                 $scope.newWeather.push($scope.newCollection);
+    //                 $http.get(`https://api.darksky.net/forecast/3bcc733553a43c5d324d11d6a83e58c2/${$scope.weather[0].location.lat},${$scope.weather[0].location.lon}`)
+    //                   .success((openObj) => {
+    //                   $scope.openCollection = openObj;
+    //                   $scope.weatherDetail.push($scope.openCollection);
+    //                   console.log("Drew2", $scope.weatherDetail);
+    //             })
+    //              })
+    //         console.log("new", $scope.newWeather);
+    //     });
+    //   $scope.weather= [];
+    //   $scope.newWeather= [];
+    //   $scope.zipObj = {zip: ''};
+
+    // }
+    console.log("Drewwwwwww");
 })
 
-.controller('TrafficCtrl', function($scope, $ionicLoading) {
+//------------------------{Traffic Controller}----------------------//
+
+.controller('TrafficCtrl', function($scope, $ionicLoading, $cordovaGeolocation) {
     $scope.$on("$ionicView.enter", function(event, data) {
         $ionicLoading.show({
             template: '<p>Loading...</p><ion-spinner></ion-spinner>',
             duration: 3000
         });
     });
-    $scope.hide = function() {
-        $ionicLoading.hide();
-    }
+    var options = {
+        timeout: 10000,
+        enableHighAccuracy: true
+    };
 
-    google.maps.event.addDomListener(window, 'load', function() {
+    $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
+
+        var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
         var mapOptions = {
-            zoom: 16,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            center: latLng,
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            setMap: map
         };
 
-        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        
 
-        navigator.geolocation.getCurrentPosition(function(pos) {
-            map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-            var myLocation = new google.maps.Marker({
-                position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
-                map: map,
-                title: "My Location"
+        $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        google.maps.event.addListenerOnce($scope.map, 'idle', function() {
+            
+            var marker = new google.maps.Marker({
+                map: $scope.map,
+                animation: google.maps.Animation.DROP,
+                position: latLng,
+                
             });
-            var trafficLayer = new google.maps.TrafficLayer();
-            trafficLayer.setMap(map);
-            $scope.$apply();
-        });
-        $scope.map = map;
-    });
 
+
+            var infoWindow = new google.maps.InfoWindow({
+                content: "Here I am!"
+            });
+            
+
+            google.maps.event.addListener(marker, 'click', function() {
+                infoWindow.open($scope.map, marker);
+
+    var trafficLayer = new google.maps.TrafficLayer();
+            trafficLayer.setMap(map);
+            });
+
+        });
+        //
+
+    }, function(error) {
+        console.log("Could not get location");
+    });
 });
