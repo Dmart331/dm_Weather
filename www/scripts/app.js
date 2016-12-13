@@ -1,5 +1,5 @@
 "use strict";
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'angularMoment'])
+angular.module('starter', ['ionic', 'starter.directives' , 'starter.controllers', 'starter.services' , 'angularMoment' ])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -21,6 +21,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     templateUrl: 'templates/tabs.html'
   })
 
+  // .state('tab.alarm', {
+  //   url: '/Alarm',
+  //   views: {
+  //     'tab-alarm': {
+  //       templateUrl: 'templates/tab-alarm.html',
+  //       controller: 'AlarmCtrl'
+  //     }
+  //   }
+  // })
+
   .state('tab.reddit', {
     url: '/reddit',
     views: {
@@ -40,12 +50,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
       }
     })
-    .state('tab.chat-detail', {
+    .state('tab.Weather-Detail', {
       url: '/Weather/Weather-Detail',
       views: {
-        'tab-chats': {
+        'tab-weather': {
           templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
+          controller: 'WeatherCtrl'
         }
       }
     })

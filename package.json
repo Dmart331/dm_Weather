@@ -50,9 +50,34 @@
     "test": "grunt test"
   },
   "cordovaPlugins": [
-    "org.apache.cordova.device",
-    "org.apache.cordova.console",
-    "com.ionic.keyboard",
-    "cordova-plugin-geolocation"
+    {
+      "locator": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-geolocation.git",
+      "id": "cordova-plugin-geolocation"
+    },
+    "cordova-plugin-compat",
+    "cordova-plugin-calendar",
+    "cordova-plugin-whitelist",
+    "cordova-plugin-statusbar",
+    "cordova-plugin-console",
+    "cordova-plugin-device",
+    "cordova-plugin-splashscreen",
+    "ionic-plugin-keyboard"
+  ],
+  "cordovaPlatforms": [
+    {
+      "platform": "android",
+      "version": "",
+      "locator": "android"
+    },
+    {
+      "platform": "browser",
+      "version": "",
+      "locator": "browser"
+    },
+    {
+      "platform": "ios",
+      "version": "",
+      "locator": "ios"
+    }
   ]
 }

@@ -1,13 +1,20 @@
 <ion-view view-title="Weather">
   <ion-content>
-    <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="item in weather" type="item-text-wrap" href="#/tab/Weather/Weather-Detail">
+    <ion-item>
+     <div class="list">
+   <div class="item item-input-inset">
+      <label class="item item-input-wrapper">   
+      <input type="text" placeholder="Placeholder 1" ng-model="zipObj.zip">
+      </label>
+      <button class="button" ng-click="getWeather()" ng-show="true">button</button>
+   </div>
+         </ion-item>
+         <br>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="item in newWeather" type="item-text-wrap" href="#/tab/Weather/Weather-Detail">
         <img ng-src="{{item.current_observation.icon_url}}">
-        <h2>Current Temperature: <br>{{item.current_observation.temp_f}}</h2>
+        <h2>{{item.current_observation.display_location.city}} <br>{{item.current_observation.temp_f}}&deg;</h2>
         <p>{{item.current_observation.icon}}</p>
-        <i class="icon ion-chevron-right icon-accessory"></i>
-
       </ion-item>
-    </ion-list>
+      
   </ion-content>
 </ion-view>

@@ -1,5 +1,10 @@
 <ion-view view-title="Weather-Detail">
-  <ion-content class="padding">
-    <h1> Put Weather Here </h1>
-  </ion-content>
+ <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="item in weatherDetail" type="item-text-wrap" href="#/tab/Weather/Weather-Detail">
+        <img ng-src="{{item.current_observation.icon_url}}">
+        <h2>{{item}}</h2>
+      </ion-item>
+    </ion-list>
+  </ion-content>>
 </ion-view>
